@@ -59,7 +59,7 @@ mojprojekt/
 
 ##  Quick Start
 
-### 1. Create a virtual environment
+### Start
 
 ```bash
 cd archery_club
