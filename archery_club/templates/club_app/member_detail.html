@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+{% block title %}{{ profile_member.username }} – Archery Club{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+  <!-- Back -->
+  <a href="{% url 'member_list' %}" class="text-gray-400 hover:text-gray-600 text-sm mb-6 block">
+    ← Back to Members
+  </a>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+    <!-- Profile Card -->
+    <div class="card">
+      <!-- Avatar -->
+      <div class="text-center mb-6">
+        <div class="w-20 h-20 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-white font-bold text-3xl mx-auto mb-3">
+          {{ profile_member.username|first|upper }}
+        </div>
+        <h1 class="text-2xl font-bold text-gray-900">
+          {{ profile_member.get_full_name|default:profile_member.username }}
+        </h1>
+        {% if profile_member.is_vip %}
+        <span class="vip-badge mt-1 inline-block">⭐ VIP Member</span>
+        {% endif %}
+      </div>
+
+      <!-- Identity -->
+      <div class="space-y-2 text-sm">
+        <div class="flex justify-between">
+          <span class="text-gray-500">Username</span>
+          <span class="font-medium">{{ profile_member.username }}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-500">Gender</span>
+          <span class="font-medium">{{ profile_member.get_gender_display }}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-500">Age</span>
+          <span class="font-medium">{{ profile_member.age }} years</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-500">Joined</span>
+          <span class="font-medium text-xs">{{ profile_member.date_joined|date:"N j, Y" }}</span>
+        </div>
+        <hr class="border-gray-100 my-2" />
+        <div class="flex justify-between">
+          <span class="text-gray-500">Height</span>
+          <span class="font-medium">{{ profile_member.height_cm }} cm</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-500">Arm Length</span>
+          <span class="font-medium">{{ profile_member.arm_length_cm }} cm</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Archery Stats -->
+    <div class="md:col-span-2 space-y-4">
+
+      <!-- Experience & Accuracy -->
+      <div class="card">
+        <h2 class="text-lg font-bold text-gray-800 mb-4">🎯 Archery Statistics</h2>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4">
+          <div class="bg-green-50 rounded-xl p-4 text-center">
+            <div class="text-2xl font-bold text-green-700">{{ profile_member.accuracy_pct|floatformat:1 }}%</div>
+            <div class="text-xs text-green-600 mt-1">Centre Accuracy</div>
+          </div>
+          <div class="bg-blue-50 rounded-xl p-4 text-center">
+            <div class="text-2xl font-bold text-blue-700">{{ profile_member.strength_lbs }}</div>
+            <div class="text-xs text-blue-600 mt-1">Draw Weight (lbs)</div>
+          </div>
+          <div class="bg-amber-50 rounded-xl p-4 text-center">
+            <div class="text-2xl font-bold text-amber-700">{{ profile_member.bow_count }}</div>
+            <div class="text-xs text-amber-600 mt-1">Bows</div>
+          </div>
+          <div class="bg-purple-50 rounded-xl p-4 text-center">
+            <div class="text-2xl font-bold text-purple-700">{{ profile_member.height_cm }}</div>
+            <div class="text-xs text-purple-600 mt-1">Height (cm)</div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <div>
+            <span class="text-sm text-gray-500">Experience:</span>
+            <span class="experience-badge exp-{{ profile_member.experience }} ml-2">
+              {{ profile_member.get_experience_display }}
+            </span>
+          </div>
+          <div>
+            <span class="text-sm text-gray-500">Strength:</span>
+            <span class="ml-2 text-sm font-medium
+              {% if profile_member.strength_category == 'light' %}text-blue-600
+              {% elif profile_member.strength_category == 'medium' %}text-amber-600
+              {% else %}text-red-600{% endif %}">
+              {{ profile_member.strength_category|capfirst }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Accuracy Bar -->
+        <div class="mt-4">
+          <div class="flex justify-between text-xs text-gray-500 mb-1">
+            <span>Accuracy</span>
+            <span>{{ profile_member.accuracy_pct|floatformat:1 }}%</span>
+          </div>
+          <div class="strength-bar">
+            <div class="strength-fill bg-green-400" style="width: {{ profile_member.accuracy_pct }}%;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Member's Bows -->
+      <div class="card">
+        <h2 class="text-lg font-bold text-gray-800 mb-4">🏹 Member's Bows ({{ member_bows.count }})</h2>
+        {% if member_bows %}
+        <div class="space-y-3">
+          {% for mb in member_bows %}
+          <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
+            <span class="text-xl">
+              {% if mb.bow.bow_type == 'longbow' %}🏹
+              {% elif mb.bow.bow_type == 'shortbow' %}🪃
+              {% elif mb.bow.bow_type == 'compound' %}⚙️
+              {% else %}🏹{% endif %}
+            </span>
+            <div class="flex-1">
+              <div class="font-semibold text-gray-900 flex items-center gap-2">
+                {{ mb.bow.name }}
+                {% if mb.is_primary %}
+                <span class="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full">Primary</span>
+                {% endif %}
+              </div>
+              <div class="text-xs text-gray-500">
+                {{ mb.bow.get_bow_type_display }} · {{ mb.bow.draw_weight_lbs }} lbs · {{ mb.bow.length_cm }} cm · {{ mb.bow.get_material_display }}
+              </div>
+            </div>
+            <span class="text-xs font-medium
+              {% if mb.bow.strength_category == 'light' %}text-blue-600
+              {% elif mb.bow.strength_category == 'medium' %}text-amber-600
+              {% else %}text-red-600{% endif %}">
+              {{ mb.bow.strength_category|capfirst }}
+            </span>
+          </div>
+          {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-center text-gray-400 py-6">No bows registered yet.</p>
+        {% endif %}
+      </div>
+
+      {% if profile_member.pk == request.user.pk %}
+      <div class="flex gap-3">
+        <a href="{% url 'profile_edit' %}" class="btn-primary">⚙️ Edit My Profile</a>
+        <a href="{% url 'bow_add' %}" class="btn-secondary">+ Add Bow</a>
+      </div>
+      {% endif %}
+    </div>
+
+  </div>
+</div>
+{% endblock %}

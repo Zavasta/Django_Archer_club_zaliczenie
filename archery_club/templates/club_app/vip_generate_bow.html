@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% block title %}Generate Perfect Bow – Archery Club{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto">
+  <!-- Header -->
+  <div class="flex items-center gap-4 mb-8">
+    <a href="{% url 'dashboard' %}" class="text-gray-400 hover:text-gray-600">← Dashboard</a>
+  </div>
+
+  <div class="bg-gradient-to-r from-purple-900 to-indigo-900 rounded-2xl p-6 mb-6 text-white">
+    <div class="flex items-center gap-3">
+      <span class="text-3xl">✨</span>
+      <div>
+        <h1 class="text-2xl font-bold">Generate My Perfect Bow</h1>
+        <p class="text-purple-300 text-sm">VIP Feature – AI-powered bow generator</p>
+      </div>
+      <span class="vip-badge ml-auto">⭐ VIP</span>
+    </div>
+  </div>
+
+  <!-- Generated Bow Card -->
+  <div class="card border-2 border-purple-300 bg-purple-50 mb-6">
+    <div class="flex items-center gap-3 mb-5">
+      <span class="text-4xl">🎯</span>
+      <div>
+        <h2 class="text-xl font-bold text-gray-900">Your Perfect Bow Specification</h2>
+        <p class="text-purple-600 text-sm">Generated specifically for <strong>{{ member.username }}</strong></p>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-xl p-6 mb-4">
+      <h3 class="text-2xl font-bold text-gray-900 mb-1">{{ generated_bow.name }}</h3>
+      <p class="text-sm text-gray-500 mb-4 italic">Generated for: {{ generated_bow.generated_for }}</p>
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
+        <div class="text-center bg-purple-50 rounded-xl py-3 px-2">
+          <div class="text-lg font-bold text-purple-900">{{ generated_bow.bow_type|title }}</div>
+          <div class="text-xs text-purple-500 mt-1">Bow Type</div>
+        </div>
+        <div class="text-center bg-purple-50 rounded-xl py-3 px-2">
+          <div class="text-lg font-bold text-purple-900">{{ generated_bow.draw_weight_lbs }} lbs</div>
+          <div class="text-xs text-purple-500 mt-1">Draw Weight</div>
+        </div>
+        <div class="text-center bg-purple-50 rounded-xl py-3 px-2">
+          <div class="text-lg font-bold text-purple-900">{{ generated_bow.length_cm }} cm</div>
+          <div class="text-xs text-purple-500 mt-1">Bow Length</div>
+        </div>
+        <div class="text-center bg-purple-50 rounded-xl py-3 px-2">
+          <div class="text-lg font-bold text-purple-900">{{ generated_bow.material|title }}</div>
+          <div class="text-xs text-purple-500 mt-1">Material</div>
+        </div>
+      </div>
+
+      <!-- Reasoning -->
+      <div class="p-4 bg-gray-50 rounded-xl text-sm text-gray-600 border border-gray-100">
+        <strong class="text-gray-700">🧠 How this was generated:</strong><br />
+        <span class="mt-1 block">{{ generated_bow.reasoning }}</span>
+      </div>
+    </div>
+
+    <!-- Algorithm Explanation -->
+    <div class="mb-4 p-4 bg-indigo-50 border border-indigo-100 rounded-xl text-sm text-indigo-700">
+      <strong>Generation Logic:</strong>
+      <ul class="mt-2 space-y-1 list-disc list-inside">
+        <li><strong>Draw weight</strong>: your stated strength ± accuracy bonus/penalty</li>
+        <li><strong>Length</strong>: height × 0.95 + arm length adjustment</li>
+        <li><strong>Type</strong>: based on experience level and physique</li>
+        <li><strong>Material</strong>: beginner → wood, advanced → composite, master → carbon</li>
+      </ul>
+    </div>
+
+    <!-- Save to DB Button -->
+    <form method="post" action="{% url 'vip_generate_bow' %}">
+      {% csrf_token %}
+      <button type="submit" class="btn-vip w-full py-3 text-base">
+        ✨ Save This Bow to Database & Add to My Profile
+      </button>
+    </form>
+  </div>
+
+  <!-- Comparison with Profile -->
+  <div class="card">
+    <h3 class="text-base font-bold text-gray-800 mb-4">📊 Your Profile vs Generated Bow</h3>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="border-b border-gray-100">
+            <th class="text-left py-2 text-gray-500 font-medium">Attribute</th>
+            <th class="text-right py-2 text-gray-500 font-medium">Your Profile</th>
+            <th class="text-right py-2 text-gray-500 font-medium">Generated Bow</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-50">
+          <tr>
+            <td class="py-2 text-gray-600">Draw Weight</td>
+            <td class="py-2 text-right font-medium">{{ member.strength_lbs }} lbs preferred</td>
+            <td class="py-2 text-right font-bold text-purple-700">{{ generated_bow.draw_weight_lbs }} lbs</td>
+          </tr>
+          <tr>
+            <td class="py-2 text-gray-600">Bow Length</td>
+            <td class="py-2 text-right font-medium">{{ member.height_cm }} cm height</td>
+            <td class="py-2 text-right font-bold text-purple-700">{{ generated_bow.length_cm }} cm</td>
+          </tr>
+          <tr>
+            <td class="py-2 text-gray-600">Experience</td>
+            <td class="py-2 text-right">
+              <span class="experience-badge exp-{{ member.experience }}">{{ member.get_experience_display }}</span>
+            </td>
+            <td class="py-2 text-right font-bold text-purple-700">{{ generated_bow.bow_type|title }}</td>
+          </tr>
+          <tr>
+            <td class="py-2 text-gray-600">Accuracy</td>
+            <td class="py-2 text-right font-medium">{{ member.accuracy_pct }}%</td>
+            <td class="py-2 text-right text-gray-400">—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

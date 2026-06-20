@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% block title %}Add Bow – Archery Club{% endblock %}
+
+{% block content %}
+<div class="max-w-xl mx-auto">
+  <!-- Header -->
+  <div class="flex items-center gap-4 mb-8">
+    <a href="{% url 'bow_list' %}" class="text-gray-400 hover:text-gray-600">← Back to Bows</a>
+  </div>
+  <div class="mb-6">
+    <h1 class="text-3xl font-bold text-gray-900">🏹 Add New Bow</h1>
+    <p class="text-gray-500 mt-1">Add a bow to the database (it will be linked to your profile)</p>
+    {% if not request.user.is_vip %}
+    <p class="mt-2 text-sm text-amber-700 bg-amber-50 px-3 py-2 rounded-lg">
+      Regular members can have up to 3 bows. 
+      You currently have <strong>{{ request.user.bow_count }}</strong>/3.
+    </p>
+    {% endif %}
+  </div>
+
+  <div class="card">
+    <form method="post" action="{% url 'bow_add' %}">
+      {% csrf_token %}
+      <div class="space-y-4">
+        <!-- Name -->
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-1">Bow Name *</label>
+          {{ form.name }}
+          {% if form.name.errors %}<p class="text-xs text-red-600 mt-1">{{ form.name.errors.0 }}</p>{% endif %}
+        </div>
+
+        <!-- Type & Material -->
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Bow Type *</label>
+            {{ form.bow_type }}
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Material *</label>
+            {{ form.material }}
+          </div>
+        </div>
+
+        <!-- Draw Weight & Length -->
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Draw Weight (lbs) *</label>
+            {{ form.draw_weight_lbs }}
+            <p class="text-xs text-gray-400 mt-1">{{ form.draw_weight_lbs.help_text }}</p>
+            {% if form.draw_weight_lbs.errors %}<p class="text-xs text-red-600 mt-1">{{ form.draw_weight_lbs.errors.0 }}</p>{% endif %}
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Length (cm) *</label>
+            {{ form.length_cm }}
+            <p class="text-xs text-gray-400 mt-1">{{ form.length_cm.help_text }}</p>
+            {% if form.length_cm.errors %}<p class="text-xs text-red-600 mt-1">{{ form.length_cm.errors.0 }}</p>{% endif %}
+          </div>
+        </div>
+
+        <!-- Draw Weight Visual Guide -->
+        <div class="p-3 bg-blue-50 rounded-lg text-xs text-blue-700">
+          <strong>Draw Weight Guide:</strong><br />
+          🔵 Light: &lt;25 lbs (beginners) · 
+          🟡 Medium: 25–34 lbs (intermediate) · 
+          🔴 Heavy: 35+ lbs (experienced/strong)
+        </div>
+
+        <!-- Notes -->
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-1">Notes (optional)</label>
+          {{ form.notes }}
+        </div>
+
+        <!-- Non-field errors -->
+        {% if form.non_field_errors %}
+        <div class="p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+          {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="flex gap-3 pt-2">
+          <button type="submit" class="btn-primary flex-1 py-3">
+            🏹 Add Bow
+          </button>
+          <a href="{% url 'bow_list' %}" class="btn-secondary py-3 px-6">Cancel</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

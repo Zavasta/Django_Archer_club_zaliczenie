@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% block title %}Edit Profile – Archery Club{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto">
+  <!-- Header -->
+  <div class="flex items-center gap-4 mb-8">
+    <a href="{% url 'dashboard' %}" class="text-gray-400 hover:text-gray-600">← Back</a>
+    <div>
+      <h1 class="text-3xl font-bold text-gray-900">Edit Profile</h1>
+      <p class="text-gray-500 mt-1">Update your archery attributes and personal information</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <form method="post" action="{% url 'profile_edit' %}">
+      {% csrf_token %}
+
+      <!-- Personal Info -->
+      <div class="mb-6">
+        <h2 class="text-base font-bold text-gray-700 mb-4 pb-2 border-b border-gray-100">
+          👤 Personal Information
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-semibold text-gray-600 mb-1">First Name</label>
+            {{ form.first_name }}
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-gray-600 mb-1">Last Name</label>
+            {{ form.last_name }}
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-gray-600 mb-1">Email</label>
+            {{ form.email }}
+            {% if form.email.errors %}<p class="text-xs text-red-600 mt-1">{{ form.email.errors.0 }}</p>{% endif %}
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-gray-600 mb-1">Gender</label>
+            {{ form.gender }}
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-gray-600 mb-1">Age</label>
+            {{ form.age }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Physical Attributes -->
+      <div class="mb-6">
+        <h2 class="text-base font-bold text-gray-700 mb-4 pb-2 border-b border-gray-100">
+          📏 Physical Attributes
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-semibold text-gray-600 mb-1">Height (cm)</label>
+            {{ form.height_cm }}
+            {% if form.height_cm.errors %}<p class="text-xs text-red-600 mt-1">{{ form.height_cm.errors.0 }}</p>{% endif %}
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-gray-600 mb-1">Arm / Draw Length (cm)</label>
+            {{ form.arm_length_cm }}
+            {% if form.arm_length_cm.errors %}<p class="text-xs text-red-600 mt-1">{{ form.arm_length_cm.errors.0 }}</p>{% endif %}
+          </div>
+        </div>
+      </div>
+
+      <!-- Archery Attributes -->
+      <div class="mb-6">
+        <h2 class="text-base font-bold text-gray-700 mb-4 pb-2 border-b border-gray-100">
+          🏹 Archery Profile
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-semibold text-gray-600 mb-1">Comfortable Draw Weight (lbs)</label>
+            {{ form.strength_lbs }}
+            <p class="text-xs text-gray-400 mt-1">{{ form.strength_lbs.help_text }}</p>
+            {% if form.strength_lbs.errors %}<p class="text-xs text-red-600 mt-1">{{ form.strength_lbs.errors.0 }}</p>{% endif %}
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-gray-600 mb-1">Experience Level</label>
+            {{ form.experience }}
+          </div>
+          <div class="sm:col-span-2">
+            <label class="block text-sm font-semibold text-gray-600 mb-1">Accuracy (%)</label>
+            {{ form.accuracy_pct }}
+            <p class="text-xs text-gray-400 mt-1">{{ form.accuracy_pct.help_text }}</p>
+            {% if form.accuracy_pct.errors %}<p class="text-xs text-red-600 mt-1">{{ form.accuracy_pct.errors.0 }}</p>{% endif %}
+          </div>
+        </div>
+      </div>
+
+      <!-- Non-field errors -->
+      {% if form.non_field_errors %}
+      <div class="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+        {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+      </div>
+      {% endif %}
+
+      <div class="flex gap-3">
+        <button type="submit" class="btn-primary flex-1 py-3">
+          ✅ Save Changes
+        </button>
+        <a href="{% url 'dashboard' %}" class="btn-secondary py-3 px-6">
+          Cancel
+        </a>
+      </div>
+    </form>
+  </div>
+
+  <!-- Danger Zone -->
+  <div class="mt-6 p-5 border border-gray-200 rounded-xl">
+    <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wide mb-2">Account</h3>
+    <p class="text-sm text-gray-500 mb-3">
+      Want to change your username or password? Use the 
+      <a href="/admin/" class="text-amber-600 hover:underline">admin panel</a> 
+      or contact the club administrator.
+    </p>
+  </div>
+</div>
+{% endblock %}

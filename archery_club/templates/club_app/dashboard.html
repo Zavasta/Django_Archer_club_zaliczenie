@@ -1,0 +1,267 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard – Archery Club{% endblock %}
+
+{% block content %}
+<!-- Header -->
+<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+  <div>
+    <h1 class="text-3xl font-bold text-gray-900">
+      Welcome back, {{ member.get_short_name }} 
+      {% if member.is_vip %}<span class="vip-badge text-base">⭐ VIP</span>{% endif %}
+    </h1>
+    <p class="text-gray-500 mt-1">Here's your archery profile overview</p>
+  </div>
+  <div class="flex gap-3">
+    <a href="{% url 'profile_edit' %}" class="btn-secondary">⚙️ Edit Profile</a>
+    {% if can_add_bow %}
+    <a href="{% url 'bow_add' %}" class="btn-primary">+ Add Bow</a>
+    {% endif %}
+  </div>
+</div>
+
+<!-- Stats Row -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+  <div class="card text-center">
+    <div class="text-3xl font-bold text-amber-600">{{ member.bow_count }}</div>
+    <div class="text-sm text-gray-500 mt-1">
+      My Bows 
+      {% if not member.is_vip %}<span class="text-xs">(max 3)</span>{% endif %}
+    </div>
+  </div>
+  <div class="card text-center">
+    <div class="text-3xl font-bold text-green-600">{{ member.accuracy_pct|floatformat:1 }}%</div>
+    <div class="text-sm text-gray-500 mt-1">Accuracy</div>
+  </div>
+  <div class="card text-center">
+    <div class="text-3xl font-bold text-blue-600">{{ all_members_count }}</div>
+    <div class="text-sm text-gray-500 mt-1">Club Members</div>
+  </div>
+  <div class="card text-center">
+    <div class="text-3xl font-bold text-purple-600">{{ all_bows_count }}</div>
+    <div class="text-sm text-gray-500 mt-1">Bows in DB</div>
+  </div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+  <!-- Member Profile Card -->
+  <div class="card">
+    <h2 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+      🧑‍🏹 My Profile
+    </h2>
+    <div class="space-y-3">
+      {% if member.first_name or member.last_name %}
+      <div class="flex justify-between text-sm">
+        <span class="text-gray-500">Full Name</span>
+        <span class="font-medium">{{ member.get_full_name }}</span>
+      </div>
+      {% endif %}
+      <div class="flex justify-between text-sm">
+        <span class="text-gray-500">Username</span>
+        <span class="font-medium">{{ member.username }}</span>
+      </div>
+      <div class="flex justify-between text-sm">
+        <span class="text-gray-500">Email</span>
+        <span class="font-medium text-xs">{{ member.email }}</span>
+      </div>
+      <div class="flex justify-between text-sm">
+        <span class="text-gray-500">Gender</span>
+        <span class="font-medium">{{ member.get_gender_display }}</span>
+      </div>
+      <div class="flex justify-between text-sm">
+        <span class="text-gray-500">Age</span>
+        <span class="font-medium">{{ member.age }} years</span>
+      </div>
+      <hr class="border-gray-100" />
+      <div class="flex justify-between text-sm">
+        <span class="text-gray-500">Height</span>
+        <span class="font-medium">{{ member.height_cm }} cm</span>
+      </div>
+      <div class="flex justify-between text-sm">
+        <span class="text-gray-500">Arm Length</span>
+        <span class="font-medium">{{ member.arm_length_cm }} cm</span>
+      </div>
+      <hr class="border-gray-100" />
+      <div class="flex justify-between text-sm">
+        <span class="text-gray-500">Draw Weight</span>
+        <span class="font-medium">{{ member.strength_lbs }} lbs 
+          <span class="text-xs text-gray-400">({{ member.strength_category }})</span>
+        </span>
+      </div>
+      <!-- Strength Bar -->
+      <div class="strength-bar">
+        <div class="strength-fill 
+          {% if member.strength_category == 'light' %}bg-blue-400
+          {% elif member.strength_category == 'medium' %}bg-amber-400
+          {% else %}bg-red-500{% endif %}"
+          style="width: {{ member.strength_lbs }}%;">
+        </div>
+      </div>
+      <div class="flex justify-between text-sm">
+        <span class="text-gray-500">Experience</span>
+        <span class="experience-badge exp-{{ member.experience }}">
+          {{ member.get_experience_display }}
+        </span>
+      </div>
+      <div class="flex justify-between text-sm">
+        <span class="text-gray-500">Accuracy</span>
+        <span class="font-bold text-green-600">{{ member.accuracy_pct|floatformat:1 }}%</span>
+      </div>
+      <div class="flex justify-between text-sm">
+        <span class="text-gray-500">Member Type</span>
+        {% if member.is_vip %}
+        <span class="vip-badge">⭐ VIP</span>
+        {% else %}
+        <span class="text-gray-600 text-xs">Regular</span>
+        {% endif %}
+      </div>
+      <div class="flex justify-between text-sm">
+        <span class="text-gray-500">Joined</span>
+        <span class="font-medium text-xs">{{ member.date_joined|date:"N j, Y" }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- My Bows -->
+  <div class="lg:col-span-2 card">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-lg font-bold text-gray-800">🏹 My Bows</h2>
+      <div class="flex gap-2">
+        <a href="{% url 'bow_list' %}" class="btn-secondary text-sm py-1 px-3">Browse All</a>
+        {% if can_add_bow %}
+        <a href="{% url 'bow_add' %}" class="btn-primary text-sm py-1 px-3">+ Add Bow</a>
+        {% endif %}
+      </div>
+    </div>
+
+    {% if member_bows %}
+    <div class="space-y-3">
+      {% for mb in member_bows %}
+      <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl border border-gray-100 hover:border-amber-200 transition-colors">
+        <div class="flex items-center gap-3">
+          <span class="text-2xl">
+            {% if mb.bow.bow_type == 'longbow' %}🏹
+            {% elif mb.bow.bow_type == 'shortbow' %}🪃
+            {% elif mb.bow.bow_type == 'compound' %}⚙️
+            {% elif mb.bow.bow_type == 'crossbow' %}✝️
+            {% else %}🏹{% endif %}
+          </span>
+          <div>
+            <div class="font-semibold text-gray-900 flex items-center gap-2">
+              {{ mb.bow.name }}
+              {% if mb.is_primary %}
+              <span class="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full">Primary</span>
+              {% endif %}
+            </div>
+            <div class="text-xs text-gray-500 mt-0.5">
+              {{ mb.bow.get_bow_type_display }} · 
+              {{ mb.bow.draw_weight_lbs }} lbs · 
+              {{ mb.bow.length_cm }} cm · 
+              {{ mb.bow.get_material_display }}
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          {% if mb.bow.added_by == member %}
+          <a href="{% url 'bow_edit' mb.bow.pk %}" 
+             class="text-xs text-blue-600 hover:underline px-2 py-1 rounded hover:bg-blue-50">
+            Edit
+          </a>
+          {% endif %}
+          <form method="post" action="{% url 'bow_delete' mb.bow.pk %}" 
+                onsubmit="return confirm('Remove this bow from your profile?')">
+            {% csrf_token %}
+            <button type="submit" class="text-xs text-red-500 hover:underline px-2 py-1 rounded hover:bg-red-50">
+              Remove
+            </button>
+          </form>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    {% if not member.is_vip %}
+    <div class="mt-4 p-3 bg-gray-50 rounded-lg text-center text-sm text-gray-500">
+      {{ member.bow_count }}/3 bows used
+      {% if not can_add_bow %}
+      · <span class="text-purple-600 font-medium">Upgrade to VIP for unlimited bows! ⭐</span>
+      {% endif %}
+    </div>
+    {% endif %}
+
+    {% else %}
+    <div class="text-center py-12 text-gray-400">
+      <div class="text-5xl mb-3">🏹</div>
+      <p class="font-medium text-gray-500">No bows yet!</p>
+      <p class="text-sm mt-1">
+        <a href="{% url 'bow_add' %}" class="text-amber-600 hover:underline">Add your first bow</a>
+        or <a href="{% url 'bow_list' %}" class="text-amber-600 hover:underline">browse the database</a>
+      </p>
+    </div>
+    {% endif %}
+  </div>
+
+</div>
+
+<!-- VIP Feature Panel -->
+{% if member.is_vip %}
+<div class="mt-6 p-6 bg-gradient-to-r from-purple-900 to-indigo-900 rounded-2xl text-white">
+  <div class="flex items-center gap-3 mb-4">
+    <span class="text-3xl">⭐</span>
+    <div>
+      <h2 class="text-xl font-bold">VIP Features</h2>
+      <p class="text-purple-300 text-sm">Exclusive tools available to you as a VIP member</p>
+    </div>
+  </div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <a href="{% url 'vip_suggest_bow' %}" 
+       class="flex items-center gap-3 p-4 bg-white/10 hover:bg-white/20 rounded-xl transition-colors">
+      <span class="text-2xl">🎯</span>
+      <div>
+        <div class="font-bold">Suggest Me a Bow</div>
+        <div class="text-sm text-purple-300">Find the best bow for your profile</div>
+      </div>
+    </a>
+    <a href="{% url 'vip_generate_bow' %}" 
+       class="flex items-center gap-3 p-4 bg-white/10 hover:bg-white/20 rounded-xl transition-colors">
+      <span class="text-2xl">✨</span>
+      <div>
+        <div class="font-bold">Generate Perfect Bow</div>
+        <div class="text-sm text-purple-300">AI-designed bow just for you</div>
+      </div>
+    </a>
+  </div>
+</div>
+{% else %}
+<!-- VIP Upgrade Banner -->
+<div class="mt-6 p-5 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-2xl flex items-center gap-4">
+  <span class="text-4xl">⭐</span>
+  <div>
+    <h3 class="font-bold text-amber-900">Upgrade to VIP</h3>
+    <p class="text-sm text-amber-700 mt-0.5">
+      Get unlimited bows, bow suggestion AI, and perfect bow generator. Contact the admin to upgrade!
+    </p>
+  </div>
+</div>
+{% endif %}
+
+<!-- Quick Links -->
+<div class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+  <a href="{% url 'bow_list' %}" 
+     class="card hover:shadow-md transition-shadow flex items-center gap-4 no-underline group">
+    <span class="text-3xl">🏹</span>
+    <div>
+      <div class="font-bold text-gray-800 group-hover:text-amber-600">Browse Bows</div>
+      <div class="text-sm text-gray-500">{{ all_bows_count }} bows in the database</div>
+    </div>
+  </a>
+  <a href="{% url 'member_list' %}" 
+     class="card hover:shadow-md transition-shadow flex items-center gap-4 no-underline group">
+    <span class="text-3xl">👥</span>
+    <div>
+      <div class="font-bold text-gray-800 group-hover:text-amber-600">Browse Members</div>
+      <div class="text-sm text-gray-500">{{ all_members_count }} active members</div>
+    </div>
+  </a>
+</div>
+{% endblock %}

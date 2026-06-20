@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block title %}Edit Bow – Archery Club{% endblock %}
+
+{% block content %}
+<div class="max-w-xl mx-auto">
+  <div class="flex items-center gap-4 mb-8">
+    <a href="{% url 'bow_list' %}" class="text-gray-400 hover:text-gray-600">← Back to Bows</a>
+  </div>
+  <div class="mb-6">
+    <h1 class="text-3xl font-bold text-gray-900">✏️ Edit Bow</h1>
+    <p class="text-gray-500 mt-1">Editing: <strong>{{ bow.name }}</strong></p>
+  </div>
+
+  <div class="card">
+    <form method="post" action="{% url 'bow_edit' bow.pk %}">
+      {% csrf_token %}
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-1">Bow Name *</label>
+          {{ form.name }}
+          {% if form.name.errors %}<p class="text-xs text-red-600 mt-1">{{ form.name.errors.0 }}</p>{% endif %}
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Bow Type</label>
+            {{ form.bow_type }}
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Material</label>
+            {{ form.material }}
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Draw Weight (lbs)</label>
+            {{ form.draw_weight_lbs }}
+            {% if form.draw_weight_lbs.errors %}<p class="text-xs text-red-600 mt-1">{{ form.draw_weight_lbs.errors.0 }}</p>{% endif %}
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Length (cm)</label>
+            {{ form.length_cm }}
+            {% if form.length_cm.errors %}<p class="text-xs text-red-600 mt-1">{{ form.length_cm.errors.0 }}</p>{% endif %}
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-1">Notes</label>
+          {{ form.notes }}
+        </div>
+        <div class="flex gap-3 pt-2">
+          <button type="submit" class="btn-primary flex-1 py-3">✅ Save Changes</button>
+          <a href="{% url 'bow_list' %}" class="btn-secondary py-3 px-6">Cancel</a>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- Bow metadata -->
+  <div class="mt-4 card text-sm text-gray-500">
+    <p><strong>Added by:</strong> {{ bow.added_by.username|default:"N/A" }}</p>
+    <p><strong>Added on:</strong> {{ bow.date_added|date:"N j, Y" }}</p>
+  </div>
+</div>
+{% endblock %}

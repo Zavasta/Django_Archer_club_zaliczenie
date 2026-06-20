@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% block title %}Suggest Me a Bow – Archery Club{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto">
+  <!-- Header -->
+  <div class="flex items-center gap-4 mb-8">
+    <a href="{% url 'dashboard' %}" class="text-gray-400 hover:text-gray-600">← Dashboard</a>
+  </div>
+
+  <div class="bg-gradient-to-r from-purple-900 to-indigo-900 rounded-2xl p-6 mb-6 text-white">
+    <div class="flex items-center gap-3 mb-2">
+      <span class="text-3xl">🎯</span>
+      <div>
+        <h1 class="text-2xl font-bold">Suggest Me a Bow</h1>
+        <p class="text-purple-300 text-sm">VIP Feature – Smart bow matching algorithm</p>
+      </div>
+      <span class="vip-badge ml-auto">⭐ VIP</span>
+    </div>
+  </div>
+
+  <!-- Member Summary Card -->
+  <div class="card mb-6">
+    <h2 class="text-lg font-bold text-gray-800 mb-4">📊 Your Profile Summary</h2>
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+      <div class="bg-gray-50 rounded-lg p-3 text-center">
+        <div class="text-xl font-bold text-gray-800">{{ member_summary.height }} cm</div>
+        <div class="text-xs text-gray-500 mt-1">Height</div>
+      </div>
+      <div class="bg-gray-50 rounded-lg p-3 text-center">
+        <div class="text-xl font-bold text-gray-800">{{ member_summary.arm_length }} cm</div>
+        <div class="text-xs text-gray-500 mt-1">Arm Length</div>
+      </div>
+      <div class="bg-gray-50 rounded-lg p-3 text-center">
+        <div class="text-xl font-bold text-gray-800">{{ member_summary.strength }} lbs</div>
+        <div class="text-xs text-gray-500 mt-1">
+          Draw Weight
+          <span class="block
+            {% if member_summary.strength_category == 'light' %}text-blue-600
+            {% elif member_summary.strength_category == 'medium' %}text-amber-600
+            {% else %}text-red-600{% endif %}">
+            ({{ member_summary.strength_category }})
+          </span>
+        </div>
+      </div>
+      <div class="bg-gray-50 rounded-lg p-3 text-center">
+        <div class="text-xl font-bold text-gray-800">{{ member_summary.accuracy }}%</div>
+        <div class="text-xs text-gray-500 mt-1">Accuracy</div>
+      </div>
+      <div class="bg-gray-50 rounded-lg p-3 text-center sm:col-span-2">
+        <span class="experience-badge exp-{{ member.experience }} text-sm">{{ member_summary.experience }}</span>
+        <div class="text-xs text-gray-500 mt-1">Experience</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Algorithm Info -->
+  <div class="p-4 bg-blue-50 border border-blue-100 rounded-xl mb-6 text-sm text-blue-700">
+    <strong>🧠 How it works:</strong> The algorithm scores every bow in the database based on:
+    draw weight match (40 pts), bow length vs. your height (30 pts), 
+    experience compatibility (20 pts), and strength+size special bonuses (10 pts).
+    The highest-scoring bow is suggested.
+  </div>
+
+  <!-- Suggested Bow -->
+  {% if suggested_bow %}
+  <div class="card border-2 border-amber-300 bg-amber-50">
+    <div class="flex items-center gap-3 mb-4">
+      <span class="text-4xl">🏆</span>
+      <div>
+        <h2 class="text-xl font-bold text-gray-900">Recommended Bow</h2>
+        <p class="text-amber-700 text-sm">Best match for your profile</p>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-xl p-5 mb-4">
+      <h3 class="text-2xl font-bold text-gray-900 mb-3">{{ suggested_bow.name }}</h3>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+        <div class="text-center bg-gray-50 rounded-lg py-3">
+          <div class="text-lg font-bold text-gray-900">{{ suggested_bow.get_bow_type_display }}</div>
+          <div class="text-xs text-gray-400">Type</div>
+        </div>
+        <div class="text-center bg-gray-50 rounded-lg py-3">
+          <div class="text-lg font-bold text-gray-900">{{ suggested_bow.draw_weight_lbs }} lbs</div>
+          <div class="text-xs text-gray-400">Draw Weight</div>
+        </div>
+        <div class="text-center bg-gray-50 rounded-lg py-3">
+          <div class="text-lg font-bold text-gray-900">{{ suggested_bow.length_cm }} cm</div>
+          <div class="text-xs text-gray-400">Length</div>
+        </div>
+        <div class="text-center bg-gray-50 rounded-lg py-3">
+          <div class="text-lg font-bold text-gray-900">{{ suggested_bow.get_material_display }}</div>
+          <div class="text-xs text-gray-400">Material</div>
+        </div>
+      </div>
+      {% if suggested_bow.notes %}
+      <p class="text-sm text-gray-500 italic">{{ suggested_bow.notes }}</p>
+      {% endif %}
+    </div>
+
+    <form method="post" action="{% url 'vip_suggest_bow' %}">
+      {% csrf_token %}
+      <input type="hidden" name="bow_id" value="{{ suggested_bow.pk }}" />
+      <button type="submit" class="btn-primary w-full py-3">
+        🏹 Add This Bow to My Profile
+      </button>
+    </form>
+  </div>
+
+  {% else %}
+  <div class="card text-center py-12">
+    <div class="text-5xl mb-4">🏹</div>
+    <h3 class="text-xl font-bold text-gray-700 mb-2">No Bows Available</h3>
+    <p class="text-gray-400 mb-4">There are no bows in the database to suggest from.</p>
+    <a href="{% url 'bow_add' %}" class="btn-primary">+ Add the First Bow</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

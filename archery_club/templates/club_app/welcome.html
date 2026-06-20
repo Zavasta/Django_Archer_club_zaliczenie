@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block title %}Welcome – Archery Club{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-gray-900 via-green-900 to-gray-900 flex flex-col items-center justify-center relative overflow-hidden">
+
+  <!-- Background decorative arrows -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none select-none">
+    <div class="absolute top-10 left-10 text-6xl opacity-10 rotate-45">🏹</div>
+    <div class="absolute top-32 right-20 text-4xl opacity-10 -rotate-12">🎯</div>
+    <div class="absolute bottom-20 left-1/4 text-5xl opacity-10 rotate-12">🏹</div>
+    <div class="absolute bottom-32 right-1/3 text-3xl opacity-10">🎯</div>
+    <div class="absolute top-1/2 left-5 text-5xl opacity-10 rotate-90">🏹</div>
+    <div class="absolute top-1/4 right-5 text-4xl opacity-10 -rotate-45">🏹</div>
+  </div>
+
+  <!-- Main Card -->
+  <div class="relative z-10 text-center px-6">
+    <!-- Logo / Title -->
+    <div class="mb-8">
+      <div class="text-8xl mb-4">🏹</div>
+      <h1 class="text-5xl md:text-6xl font-extrabold text-white tracking-tight mb-3">
+        Archery Club
+      </h1>
+      <p class="text-xl text-green-300 font-medium">Management System</p>
+      <div class="mt-3 w-24 h-1 bg-amber-500 rounded mx-auto"></div>
+    </div>
+
+    <!-- Description -->
+    <p class="text-gray-300 text-lg mb-10 max-w-md mx-auto leading-relaxed">
+      Welcome to the Archery Club portal. Manage members, browse bows, 
+      and discover your perfect match.
+    </p>
+
+    <!-- Feature Pills -->
+    <div class="flex flex-wrap justify-center gap-3 mb-10">
+      <span class="px-4 py-2 bg-white/10 backdrop-blur rounded-full text-white text-sm">🧑‍🤝‍🧑 Member Profiles</span>
+      <span class="px-4 py-2 bg-white/10 backdrop-blur rounded-full text-white text-sm">🏹 Bow Database</span>
+      <span class="px-4 py-2 bg-white/10 backdrop-blur rounded-full text-white text-sm">⭐ VIP Features</span>
+      <span class="px-4 py-2 bg-white/10 backdrop-blur rounded-full text-white text-sm">🎯 Smart Matching</span>
+      <span class="px-4 py-2 bg-white/10 backdrop-blur rounded-full text-white text-sm">📊 REST API</span>
+    </div>
+
+    <!-- CTA Buttons -->
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <a href="{% url 'login' %}" 
+         class="px-8 py-4 bg-amber-500 hover:bg-amber-400 text-white font-bold rounded-xl text-lg transition-all transform hover:scale-105 shadow-lg shadow-amber-500/30">
+        🚀 Sign In
+      </a>
+      <a href="{% url 'register' %}" 
+         class="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur text-white font-bold rounded-xl text-lg border border-white/20 transition-all transform hover:scale-105">
+        📝 Join the Club
+      </a>
+    </div>
+
+    <!-- API Link -->
+    <div class="mt-12 text-gray-500 text-sm">
+      REST API: <a href="/api/" class="text-amber-400 hover:underline">/api/</a>
+      &nbsp;·&nbsp;
+      Admin: <a href="/admin/" class="text-amber-400 hover:underline">/admin/</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

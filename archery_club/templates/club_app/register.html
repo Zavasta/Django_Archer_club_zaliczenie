@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% block title %}Register – Archery Club{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-gray-900 via-green-900 to-gray-900 py-12 px-4">
+  <div class="max-w-2xl mx-auto">
+    <!-- Header -->
+    <div class="text-center mb-8">
+      <a href="{% url 'welcome' %}" class="text-5xl block mb-4">🏹</a>
+      <h1 class="text-3xl font-bold text-white">Join the Club</h1>
+      <p class="text-gray-400 mt-2">Create your Archery Club member profile</p>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-2xl p-8">
+      <form method="post" action="{% url 'register' %}">
+        {% csrf_token %}
+
+        <!-- Account Info -->
+        <div class="mb-6">
+          <h2 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+            <span class="w-7 h-7 bg-amber-100 text-amber-700 rounded-full flex items-center justify-center text-sm font-bold">1</span>
+            Account Information
+          </h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="sm:col-span-2">
+              <label class="form-label">Username *</label>
+              {{ form.username }}
+              {% if form.username.errors %}<p class="err">{{ form.username.errors.0 }}</p>{% endif %}
+            </div>
+            <div>
+              <label class="form-label">First Name</label>
+              {{ form.first_name }}
+            </div>
+            <div>
+              <label class="form-label">Last Name</label>
+              {{ form.last_name }}
+            </div>
+            <div class="sm:col-span-2">
+              <label class="form-label">Email *</label>
+              {{ form.email }}
+              {% if form.email.errors %}<p class="err">{{ form.email.errors.0 }}</p>{% endif %}
+            </div>
+            <div>
+              <label class="form-label">Password *</label>
+              {{ form.password }}
+              {% if form.password.errors %}<p class="err">{{ form.password.errors.0 }}</p>{% endif %}
+            </div>
+            <div>
+              <label class="form-label">Confirm Password *</label>
+              {{ form.password_confirm }}
+              {% if form.password_confirm.errors %}<p class="err">{{ form.password_confirm.errors.0 }}</p>{% endif %}
+            </div>
+          </div>
+        </div>
+
+        <hr class="border-gray-200 mb-6" />
+
+        <!-- Physical Attributes -->
+        <div class="mb-6">
+          <h2 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+            <span class="w-7 h-7 bg-green-100 text-green-700 rounded-full flex items-center justify-center text-sm font-bold">2</span>
+            Physical Attributes
+          </h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label class="form-label">Gender</label>
+              {{ form.gender }}
+            </div>
+            <div>
+              <label class="form-label">Age</label>
+              {{ form.age }}
+            </div>
+            <div>
+              <label class="form-label">Height (cm)</label>
+              {{ form.height_cm }}
+            </div>
+            <div class="sm:col-span-3">
+              <label class="form-label">Arm / Draw Length (cm)</label>
+              {{ form.arm_length_cm }}
+              <p class="text-xs text-gray-500 mt-1">{{ form.arm_length_cm.help_text }}</p>
+            </div>
+          </div>
+        </div>
+
+        <hr class="border-gray-200 mb-6" />
+
+        <!-- Archery Attributes -->
+        <div class="mb-6">
+          <h2 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+            <span class="w-7 h-7 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center text-sm font-bold">3</span>
+            Archery Profile
+          </h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="form-label">Comfortable Draw Weight (lbs)</label>
+              {{ form.strength_lbs }}
+              <p class="text-xs text-gray-500 mt-1">{{ form.strength_lbs.help_text }}</p>
+              {% if form.strength_lbs.errors %}<p class="err">{{ form.strength_lbs.errors.0 }}</p>{% endif %}
+            </div>
+            <div>
+              <label class="form-label">Experience Level</label>
+              {{ form.experience }}
+            </div>
+            <div class="sm:col-span-2">
+              <label class="form-label">Accuracy (%)</label>
+              {{ form.accuracy_pct }}
+              <p class="text-xs text-gray-500 mt-1">{{ form.accuracy_pct.help_text }}</p>
+              {% if form.accuracy_pct.errors %}<p class="err">{{ form.accuracy_pct.errors.0 }}</p>{% endif %}
+            </div>
+          </div>
+        </div>
+
+        <!-- Non-field errors -->
+        {% if form.non_field_errors %}
+        <div class="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+          {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+        </div>
+        {% endif %}
+
+        <button type="submit" class="btn-primary w-full py-3 text-base">
+          🎯 Create My Profile
+        </button>
+      </form>
+
+      <div class="mt-6 text-center text-sm text-gray-500">
+        Already a member? 
+        <a href="{% url 'login' %}" class="text-amber-600 font-semibold hover:underline">Sign In</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .form-label { display: block; font-size: 0.875rem; font-weight: 600; color: #374151; margin-bottom: 0.25rem; }
+  .err { margin-top: 0.25rem; font-size: 0.75rem; color: #dc2626; }
+  select.form-input, input.form-input, textarea.form-input {
+    background-color: white;
+  }
+</style>
+{% endblock %}
