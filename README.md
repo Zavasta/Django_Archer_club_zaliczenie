@@ -1,0 +1,2 @@
+# Django_Archer_club_zaliczenie
+Projekt zaliczeniowy studia podyplomowe
