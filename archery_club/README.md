@@ -1,7 +1,6 @@
 # Archery Club Management System
 
-A Django web application for managing an archery club — members, bows, and smart VIP features.
----
+```
 Sample account:
 Username	| Password	| Type | Experience |	Strength
 | admin	| admin123 |	Admin+VIP |	Master |	40 lbs
@@ -11,7 +10,7 @@ robin |	pass123	| Regular |	Adept	| 28 lbs
 alice |	pass123 |	Regular |	Beginner	| 20 lbs
 thorin | pass123 |	Regular |	Advanced |	35 lbs
 
----
+```
 
 ## Project Structure
 
