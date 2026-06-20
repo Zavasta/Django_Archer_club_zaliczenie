@@ -1,7 +1,8 @@
 # Archery Club Management System
 
+
+## Sample account:
 ```
-Sample account:
 Username	| Password	| Type | Experience |	Strength
 | admin	| admin123 |	Admin+VIP |	Master |	40 lbs
 artemis |	vip123 |	VIP	Advanced |	38 lbs
