@@ -1,3 +1,13 @@
+"""
+Database setup and sample data script.
+Run with: python setup_db.py
+
+This script:
+1. Runs migrations
+2. Creates sample members (including VIP)
+3. Creates sample bows
+4. Links bows to members
+"""
 
 import os
 import sys

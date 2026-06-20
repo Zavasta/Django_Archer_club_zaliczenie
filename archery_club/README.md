@@ -1,56 +1,46 @@
-# Archery Club Management System
+# 🏹 Archery Club Management System
+
+A Django web application for managing an archery club — members, bows, and smart VIP features.
 
 ---
-## Sample account:
 
-Username	| Password	| Type | Experience |	Strength
-|-----|-----|-----|-----|-----|
-| 'admin'	| 'admin123' |	'Admin+VIP' |	'Master' |	40 lbs |
-| 'artemis' |	vip123 |	VIP	Advanced |	38 lbs |
-| 'titan' |	vip123 |	VIP	Master |	48 lbs |
-| 'robin' |	pass123	| Regular |	Adept	| 28 lbs |
-| 'alice' |	pass123 |	Regular |	Beginner	| 20 lbs |
-| 'thorin' | pass123 |	Regular |	Advanced |	35 lbs |
-
-
----
-## Project Structure
+## 📁 Project Structure
 
 ```
 mojprojekt/
-├── manage.py                    
+├── manage.py                    ← CLI management tool
 ├── mojprojekt/
 │   ├── __init__.py
-│   ├── settings.py              
-│   ├── urls.py                  
-│   └── wsgi.py                  
+│   ├── settings.py              ← All configuration
+│   ├── urls.py                  ← Main URL routing
+│   └── wsgi.py                  ← WSGI entry point (production)
 ├── club_app/
 │   ├── __init__.py
-│   ├── models.py                
-│   ├── views.py                 
-│   ├── api_views.py             
-│   ├── api_urls.py              
-│   ├── serializers.py           
-│   ├── forms.py                 
-│   └── admin.py                 
+│   ├── models.py                ← ClubMember, Bow, MemberBow, VIPMember
+│   ├── views.py                 ← Django HTML views
+│   ├── api_views.py             ← DRF REST API views
+│   ├── api_urls.py              ← /api/ URL routing
+│   ├── serializers.py           ← DRF serializers
+│   ├── forms.py                 ← Django forms
+│   └── admin.py                 ← Django admin config
 ├── templates/
-│   ├── base.html                
+│   ├── base.html                ← Base layout template
 │   └── club_app/
-│       ├── welcome.html         
-│       ├── login.html           
-│       ├── register.html        
-│       ├── dashboard.html       
-│       ├── profile_edit.html    
-│       ├── bow_list.html        
-│       ├── bow_add.html         
-│       ├── bow_edit.html        
-│       ├── member_list.html     
-│       ├── member_detail.html   
-│       ├── vip_suggest_bow.html 
-│       └── vip_generate_bow.html
+│       ├── welcome.html         ← Landing page
+│       ├── login.html           ← Login form
+│       ├── register.html        ← Registration form
+│       ├── dashboard.html       ← Member dashboard
+│       ├── profile_edit.html    ← Edit profile
+│       ├── bow_list.html        ← Browse all bows
+│       ├── bow_add.html         ← Add new bow
+│       ├── bow_edit.html        ← Edit bow
+│       ├── member_list.html     ← Browse members
+│       ├── member_detail.html   ← Member stats
+│       ├── vip_suggest_bow.html ← VIP: suggest bow
+│       └── vip_generate_bow.html← VIP: generate bow
 ├── tests/
-│   ├── conftest.py              
-│   └── test_api.py              
+│   ├── conftest.py              ← pytest fixtures
+│   └── test_api.py              ← REST API tests
 ├── requirements.txt
 ├── pytest.ini
 └── README.md
@@ -58,27 +48,36 @@ mojprojekt/
 
 ---
 
-### Quick Start
+## 🚀 Quick Start
+
+### 1. Create a virtual environment
 
 ```bash
 python -m venv venv
-venv\Scripts\activate     #Na windows   
+source venv/bin/activate      # Linux / macOS
+venv\Scripts\activate         # Windows
 ```
+
+### 2. Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
+
+### 3. Apply database migrations
 
 ```bash
 python manage.py makemigrations club_app
 python manage.py migrate
 ```
 
+### 4. Create a superuser (admin)
+
 ```bash
 python manage.py createsuperuser
 ```
 
-### sample data
+### 5. (Optional) Load sample data
 
 ```bash
 python manage.py shell
@@ -90,7 +89,7 @@ vip = ClubMember.objects.create_user('vip_user', 'vip@club.com', 'pass123', is_v
 Bow.objects.create(name='Forest Hunter', bow_type='longbow', draw_weight_lbs=28, length_cm=180, material='wood', added_by=vip)
 ```
 
-### Run
+### 6. Run the development server
 
 ```bash
 python manage.py runserver
@@ -99,7 +98,7 @@ python manage.py runserver
 
 ---
 
-## URL Map
+## 🌐 URL Map
 
 | URL | Description |
 |-----|-------------|
@@ -120,7 +119,7 @@ python manage.py runserver
 
 ---
 
-## REST API
+## 🔌 REST API
 
 ### Auth
 
@@ -157,7 +156,7 @@ python manage.py runserver
 
 **Query filters:** `?type=longbow`, `?material=wood`, `?min_weight=25`, `?max_weight=40`
 
-### VIP Features
+### VIP Features ⭐
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
@@ -173,7 +172,7 @@ python manage.py runserver
 
 ---
 
-## Tests
+## 🧪 Tests
 
 ```bash
 # Run all tests
@@ -194,7 +193,7 @@ pytest tests/ -v -k "test_bow_limit"
 
 ---
 
-## Member Attributes
+## 🎯 Member Attributes
 
 | Attribute | Description | Range |
 |-----------|-------------|-------|
@@ -207,7 +206,7 @@ pytest tests/ -v -k "test_bow_limit"
 | `accuracy_pct` | % shots hitting centre | 0–100 |
 | `is_vip` | VIP status | True/False |
 
-## Bow Attributes
+## 🏹 Bow Attributes
 
 | Attribute | Description | Range |
 |-----------|-------------|-------|
@@ -218,7 +217,7 @@ pytest tests/ -v -k "test_bow_limit"
 
 ---
 
-## VIP Features
+## ⭐ VIP Features
 
 ### Suggest Me a Bow
 Scores every bow in the database:
@@ -236,7 +235,7 @@ Creates ideal bow specification from member's profile:
 
 ---
 
-## 
+## 🛡️ Business Rules
 
 - Regular members: **maximum 3 bows** per profile
 - VIP members: **unlimited bows** + suggest bow + generate bow

@@ -1,4 +1,11 @@
+"""
+pytest fixtures for the Archery Club application.
 
+Run tests with:
+  pytest tests/ -v
+  pytest tests/ -v --tb=short
+  pytest tests/test_api.py -v -k "test_bow"
+"""
 
 import pytest
 from rest_framework.test import APIClient
@@ -109,7 +116,7 @@ def admin_member(db):
 
 
 # ─────────────────────────────────────────────
-#  AUTHENTICATED API FIXTURES
+#  AUTHENTICATED API CLIENT FIXTURES
 # ─────────────────────────────────────────────
 
 @pytest.fixture
