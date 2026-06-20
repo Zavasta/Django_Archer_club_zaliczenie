@@ -17,39 +17,39 @@
 
 ```
 mojprojekt/
-├── manage.py                    ← CLI management tool
+├── manage.py                    
 ├── mojprojekt/
 │   ├── __init__.py
-│   ├── settings.py              ← All configuration
-│   ├── urls.py                  ← Main URL routing
-│   └── wsgi.py                  ← WSGI entry point (production)
+│   ├── settings.py              
+│   ├── urls.py                  
+│   └── wsgi.py                  
 ├── club_app/
 │   ├── __init__.py
-│   ├── models.py                ← ClubMember, Bow, MemberBow, VIPMember
-│   ├── views.py                 ← Django HTML views
-│   ├── api_views.py             ← DRF REST API views
-│   ├── api_urls.py              ← /api/ URL routing
-│   ├── serializers.py           ← DRF serializers
-│   ├── forms.py                 ← Django forms
-│   └── admin.py                 ← Django admin config
+│   ├── models.py                
+│   ├── views.py                 
+│   ├── api_views.py             
+│   ├── api_urls.py             
+│   ├── serializers.py           
+│   ├── forms.py                 
+│   └── admin.py                 
 ├── templates/
-│   ├── base.html                ← Base layout template
+│   ├── base.html                
 │   └── club_app/
-│       ├── welcome.html         ← Landing page
-│       ├── login.html           ← Login form
-│       ├── register.html        ← Registration form
-│       ├── dashboard.html       ← Member dashboard
-│       ├── profile_edit.html    ← Edit profile
-│       ├── bow_list.html        ← Browse all bows
-│       ├── bow_add.html         ← Add new bow
-│       ├── bow_edit.html        ← Edit bow
-│       ├── member_list.html     ← Browse members
-│       ├── member_detail.html   ← Member stats
-│       ├── vip_suggest_bow.html ← VIP: suggest bow
-│       └── vip_generate_bow.html← VIP: generate bow
+│       ├── welcome.html        
+│       ├── login.html           
+│       ├── register.html       
+│       ├── dashboard.html       
+│       ├── profile_edit.html    
+│       ├── bow_list.html       
+│       ├── bow_add.html         
+│       ├── bow_edit.html        
+│       ├── member_list.html     
+│       ├── member_detail.html   
+│       ├── vip_suggest_bow.html 
+│       └── vip_generate_bow.html
 ├── tests/
-│   ├── conftest.py              ← pytest fixtures
-│   └── test_api.py              ← REST API tests
+│   ├── conftest.py              
+│   └── test_api.py              
 ├── requirements.txt
 ├── pytest.ini
 └── README.md
