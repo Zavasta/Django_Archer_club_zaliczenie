@@ -1,13 +1,3 @@
-"""
-Database setup and sample data script.
-Run with: python setup_db.py
-
-This script:
-1. Runs migrations
-2. Creates sample members (including VIP)
-3. Creates sample bows
-4. Links bows to members
-"""
 
 import os
 import sys
@@ -25,14 +15,14 @@ from club_app.models import ClubMember, Bow, MemberBow
 
 
 def run_migrations():
-    print("📦 Running migrations...")
+    print(" Running migrations...")
     call_command('makemigrations', 'club_app', verbosity=1)
     call_command('migrate', verbosity=1)
-    print("✅ Migrations complete!\n")
+    print(" Migrations complete!\n")
 
 
 def create_sample_data():
-    print("🏹 Creating sample data...\n")
+    print(" Creating sample data...\n")
 
     # ── Create Members ────────────────────────────
 
@@ -50,7 +40,7 @@ def create_sample_data():
         admin.experience = 'master'
         admin.accuracy_pct = 85.0
         admin.save()
-        print(f"  👑 Created admin: admin / admin123")
+        print(f"  Created admin: admin / admin123")
 
     # VIP Member 1
     if not ClubMember.objects.filter(username='artemis').exists():
@@ -69,7 +59,7 @@ def create_sample_data():
             accuracy_pct=78.0,
             is_vip=True,
         )
-        print(f"  ⭐ Created VIP: artemis / vip123")
+        print(f"  Created VIP: artemis / vip123")
     else:
         artemis = ClubMember.objects.get(username='artemis')
 
@@ -111,7 +101,7 @@ def create_sample_data():
             accuracy_pct=62.5,
             is_vip=False,
         )
-        print(f"  🏹 Created regular: robin / pass123")
+        print(f"  Created regular: robin / pass123")
     else:
         robin = ClubMember.objects.get(username='robin')
 
@@ -132,7 +122,7 @@ def create_sample_data():
             accuracy_pct=38.0,
             is_vip=False,
         )
-        print(f"  🏹 Created regular: alice / pass123")
+        print(f"  Created regular: alice / pass123")
     else:
         alice = ClubMember.objects.get(username='alice')
 
@@ -244,7 +234,7 @@ def create_sample_data():
         )
         created_bows.append(bow)
         if created:
-            print(f"  🏹 Created bow: {bow.name} ({bow.draw_weight_lbs}lbs, {bow.length_cm}cm)")
+            print(f"   Created bow: {bow.name} ({bow.draw_weight_lbs}lbs, {bow.length_cm}cm)")
 
     print()
 
@@ -275,27 +265,27 @@ def create_sample_data():
                 defaults={'is_primary': is_primary},
             )
             if created:
-                print(f"  🔗 Linked: {member.username} → {bow_name}{'  [PRIMARY]' if is_primary else ''}")
+                print(f"   Linked: {member.username} → {bow_name}{'  [PRIMARY]' if is_primary else ''}")
 
     print()
-    print("✅ Sample data loaded successfully!")
+    print(" Sample data loaded successfully!")
     print()
     print("=" * 50)
-    print("🌐 Accounts (username / password):")
+    print(" Accounts (username / password):")
     print()
-    print("  👑 admin    / admin123    (superuser + VIP)")
-    print("  ⭐ artemis  / vip123      (VIP member)")
-    print("  ⭐ titan    / vip123      (VIP member, short+strong)")
-    print("  🏹 robin    / pass123     (regular member)")
-    print("  🏹 alice    / pass123     (beginner member)")
-    print("  🏹 thorin   / pass123     (regular member, short+strong)")
+    print("   admin    / admin123    (superuser + VIP)")
+    print("   artemis  / vip123      (VIP member)")
+    print("   titan    / vip123      (VIP member, short+strong)")
+    print("   robin    / pass123     (regular member)")
+    print("   alice    / pass123     (beginner member)")
+    print("   thorin   / pass123     (regular member, short+strong)")
     print()
-    print("🚀 Run the server:")
+    print(" Run the server:")
     print("   python manage.py runserver")
     print()
-    print("🌐 Open: http://127.0.0.1:8000/")
-    print("🔧 Admin: http://127.0.0.1:8000/admin/")
-    print("📡 API: http://127.0.0.1:8000/api/")
+    print(" Open: http://127.0.0.1:8000/")
+    print(" Admin: http://127.0.0.1:8000/admin/")
+    print(" API: http://127.0.0.1:8000/api/")
     print("=" * 50)
 
 

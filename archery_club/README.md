@@ -167,7 +167,7 @@ python manage.py runserver
 
 **Query filters:** `?type=longbow`, `?material=wood`, `?min_weight=25`, `?max_weight=40`
 
-### VIP Features ⭐
+### VIP Features
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
@@ -246,7 +246,7 @@ Creates ideal bow specification from member's profile:
 
 ---
 
-## 🛡️ Business Rules
+## Business Rules
 
 - Regular members: **maximum 3 bows** per profile
 - VIP members: **unlimited bows** + suggest bow + generate bow
