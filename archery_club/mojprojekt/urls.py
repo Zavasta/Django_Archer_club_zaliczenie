@@ -1,20 +1,3 @@
-"""
-URL configuration for mojprojekt - Archery Club Application.
-
-URL routing structure:
-  /                   -> welcome/login page
-  /dashboard/         -> user dashboard
-  /register/          -> new member registration
-  /profile/edit/      -> edit user attributes
-  /bows/              -> browse all bows
-  /bows/add/          -> add a new bow
-  /bows/<id>/edit/    -> edit a bow
-  /members/           -> browse all members
-  /vip/suggest-bow/   -> VIP: suggest a bow
-  /vip/generate-bow/  -> VIP: generate perfect bow
-  /admin/             -> Django admin panel
-  /api/               -> REST API root
-"""
 
 from django.contrib import admin
 from django.urls import path, include

@@ -1,15 +1,3 @@
-"""
-Models for the Archery Club application.
-
-Class hierarchy:
-  AbstractBaseUser (Django)
-    └── ClubMember          ← custom user model with archery attributes
-          └── VIPMember     ← proxy model with extra permissions/features
-
-  Model
-    └── Bow                 ← represents a bow in the database
-    └── MemberBow           ← many-to-many linking members to their bows
-"""
 
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models

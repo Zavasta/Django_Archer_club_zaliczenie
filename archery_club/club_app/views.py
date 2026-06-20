@@ -1,24 +1,3 @@
-"""
-Views for the Archery Club application.
-
-View hierarchy:
-  View (Django)
-    ├── WelcomeView          ← landing page
-    ├── LoginView            ← login form
-    ├── LogoutView           ← logout action
-    ├── RegisterView         ← new member registration
-    ├── DashboardView        ← member dashboard (own bows + attributes)
-    ├── ProfileEditView      ← edit member attributes
-    ├── BowListView          ← browse all bows
-    ├── BowAddView           ← add a new bow
-    ├── BowEditView          ← edit an existing bow
-    ├── BowDeleteView        ← delete a bow
-    ├── MemberListView       ← browse all members
-    ├── MemberDetailView     ← view one member's stats
-    ├── VIPSuggestBowView    ← VIP: suggest a fitting bow
-    └── VIPGenerateBowView   ← VIP: generate a perfect bow spec
-"""
-
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.contrib.auth import login, logout, authenticate

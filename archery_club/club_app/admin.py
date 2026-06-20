@@ -1,6 +1,3 @@
-"""
-Django Admin configuration for the Archery Club application.
-"""
 
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin

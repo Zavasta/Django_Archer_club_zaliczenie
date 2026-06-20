@@ -1,13 +1,3 @@
-"""
-Django Forms for the Archery Club application.
-
-Forms:
-  LoginForm           ← username + password
-  RegisterForm        ← full registration with archery attributes
-  ProfileEditForm     ← edit member's archery attributes
-  BowForm             ← add / edit a bow
-  MemberBowLinkForm   ← link an existing bow to a member
-"""
 
 from django import forms
 from django.core.validators import MinValueValidator, MaxValueValidator

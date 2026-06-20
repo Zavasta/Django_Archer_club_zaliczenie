@@ -1,6 +1,3 @@
-"""
-Django settings for mojprojekt - Archery Club Application.
-"""
 
 import os
 from pathlib import Path

@@ -1,20 +1,3 @@
-"""
-REST API Tests for the Archery Club application.
-
-Test classes:
-  TestAuthAPI         ← /api/auth/register/ and /api/auth/login/
-  TestMemberAPI       ← /api/members/ and /api/me/
-  TestBowAPI          ← /api/bows/ CRUD
-  TestMyBowsAPI       ← /api/my-bows/
-  TestVIPAPI          ← /api/vip/suggest-bow/ and /api/vip/generate-bow/
-  TestStatsAPI        ← /api/stats/
-  TestBowLimits       ← regular member bow limit enforcement
-
-Run with:
-  pytest tests/test_api.py -v
-  pytest tests/test_api.py::TestBowAPI -v
-  pytest tests/test_api.py -v -k "test_vip"
-"""
 
 import pytest
 from rest_framework import status

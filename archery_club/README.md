@@ -1,10 +1,19 @@
-# 🏹 Archery Club Management System
-
-A Django web application for managing an archery club — members, bows, and smart VIP features.
+#  Archery Club Management System
 
 ---
+## Sample Users
 
-## 📁 Project Structure
+| Username | Password |
+|-----|-------------|
+| `admin` | admin123 |
+| `artemis` | vip123 |
+| `titan` | vip123 |
+| `robin` | pass123 |
+| `alice` | pass123 |
+| `thorin` | pass123 |
+---
+
+##  Project Structure
 
 ```
 mojprojekt/
@@ -48,36 +57,38 @@ mojprojekt/
 
 ---
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### 1. Create a virtual environment
 
 ```bash
-python -m venv venv
-source venv/bin/activate      # Linux / macOS
-venv\Scripts\activate         # Windows
+cd archery_club
+pip install -r requirements.txt
+python setup_db.py          # migrations + sample data
+python manage.py runserver  # → http://127.0.0.1:8000/
+pytest tests/ -v            # run all tests
 ```
 
-### 2. Install dependencies
+### Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Apply database migrations
+###  Migrations
 
 ```bash
 python manage.py makemigrations club_app
 python manage.py migrate
 ```
 
-### 4. Create a superuser (admin)
+### Create a superuser (admin)
 
 ```bash
 python manage.py createsuperuser
 ```
 
-### 5. (Optional) Load sample data
+### (Optional) Load sample data
 
 ```bash
 python manage.py shell
@@ -89,7 +100,7 @@ vip = ClubMember.objects.create_user('vip_user', 'vip@club.com', 'pass123', is_v
 Bow.objects.create(name='Forest Hunter', bow_type='longbow', draw_weight_lbs=28, length_cm=180, material='wood', added_by=vip)
 ```
 
-### 6. Run the development server
+### Run 
 
 ```bash
 python manage.py runserver
@@ -98,7 +109,7 @@ python manage.py runserver
 
 ---
 
-## 🌐 URL Map
+## URL Map
 
 | URL | Description |
 |-----|-------------|
@@ -119,7 +130,7 @@ python manage.py runserver
 
 ---
 
-## 🔌 REST API
+## REST API
 
 ### Auth
 
@@ -172,7 +183,7 @@ python manage.py runserver
 
 ---
 
-## 🧪 Tests
+## Tests
 
 ```bash
 # Run all tests
@@ -193,7 +204,7 @@ pytest tests/ -v -k "test_bow_limit"
 
 ---
 
-## 🎯 Member Attributes
+## Member Attributes
 
 | Attribute | Description | Range |
 |-----------|-------------|-------|
@@ -206,7 +217,7 @@ pytest tests/ -v -k "test_bow_limit"
 | `accuracy_pct` | % shots hitting centre | 0–100 |
 | `is_vip` | VIP status | True/False |
 
-## 🏹 Bow Attributes
+## Bow Attributes
 
 | Attribute | Description | Range |
 |-----------|-------------|-------|
@@ -217,7 +228,7 @@ pytest tests/ -v -k "test_bow_limit"
 
 ---
 
-## ⭐ VIP Features
+## VIP Features
 
 ### Suggest Me a Bow
 Scores every bow in the database:

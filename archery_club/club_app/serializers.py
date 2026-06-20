@@ -1,16 +1,3 @@
-"""
-DRF Serializers for the Archery Club application.
-
-Serializer hierarchy:
-  ModelSerializer
-    ├── ClubMemberSerializer      ← read-only member data (list/detail)
-    ├── ClubMemberUpdateSerializer← update member attributes
-    ├── RegisterSerializer        ← create a new member
-    ├── BowSerializer             ← full bow representation
-    ├── BowCreateSerializer       ← create/update bow (with limit validation)
-    ├── MemberBowSerializer       ← link between member and bow
-    └── VIPSuggestionSerializer   ← output of suggest_bow / generate_perfect_bow
-"""
 
 from rest_framework import serializers
 from django.contrib.auth import authenticate
