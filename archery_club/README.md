@@ -1,18 +1,19 @@
 # Archery Club Management System
 
-
+---
 ## Sample account:
-```
+
 Username	| Password	| Type | Experience |	Strength
-| admin	| admin123 |	Admin+VIP |	Master |	40 lbs
-artemis |	vip123 |	VIP	Advanced |	38 lbs
-titan |	vip123 |	VIP	Master |	48 lbs
-robin |	pass123	| Regular |	Adept	| 28 lbs
-alice |	pass123 |	Regular |	Beginner	| 20 lbs
-thorin | pass123 |	Regular |	Advanced |	35 lbs
+|-----|-----|-----|-----|-----|
+| 'admin'	| 'admin123' |	'Admin+VIP' |	'Master' |	40 lbs |
+| 'artemis' |	vip123 |	VIP	Advanced |	38 lbs |
+| 'titan' |	vip123 |	VIP	Master |	48 lbs |
+| 'robin' |	pass123	| Regular |	Adept	| 28 lbs |
+| 'alice' |	pass123 |	Regular |	Beginner	| 20 lbs |
+| 'thorin' | pass123 |	Regular |	Advanced |	35 lbs |
 
-```
 
+---
 ## Project Structure
 
 ```
